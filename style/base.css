@@ -1,0 +1,50 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    /* 深色主题 */
+    --bg-primary: hsl(60, 2%, 12%);      /* 主背景 */
+    --bg-secondary: hsl(60, 2%, 17%);    /* 次级背景（按钮、卡片） */
+    --bg-tertiary: hsl(60, 2%, 22%);     /* 悬停状态 */
+    --bg-panel-darker: hsl(60, 2%, 11%); /* 加深对比 */
+
+    --card-bg: ;
+    --card-hover: #121212;;
+    
+    --text-primary: #ffffff;    /* 主文字（提高对比度） */
+    --text-secondary: #c3c2b7;  /* 次要文字 */
+    --text-muted: #8a8985;      /* 弱化文字 */
+    
+    --resizer: #494949;         /* 分割线 */
+
+    --accent: #d97757;          /* 强调色 */
+
+    --error: rgb(205, 72, 72);
+    --bg-error: rgba(206, 89, 89, 0.447);
+}
+
+body {
+    min-width: 100vw;
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+}
+
+button {
+    display: block;
+    padding: 2px 8px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--accent);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    background: var(--bg-tertiary);
+    opacity: 1;
+}

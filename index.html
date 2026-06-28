@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="现代化的正则表达式在线测试编辑工具">
+        <title>正则实验室</title>
+        <link rel="stylesheet" href="./style/base.css">
+        <link rel="stylesheet" href="./style/layout.css">
+        <link rel="stylesheet" href="./style/inputs.css">
+        <link rel="stylesheet" href="./style/saved.css">
+        <link rel="stylesheet" href="./style/editor.css">
+        <link rel="stylesheet" href="./style/result.css">
+    </head>
+    <body>
+        <div id="workspace">
+            <aside id="saved-sidebar">
+                <button id="toggle-btn">
+                    <span class="icon">◀</span>
+                </button>
+                    <section id="saved-section">
+                         <div class="collapsible">
+                            <h2 id="heading-common">- 常用</h2>
+                            <div id="common-list">
+                            </div>
+                        </div>
+                         <div class="collapsible">
+                            <h2 id="heading-saved">- 收藏</h2>
+                            <button id="save-btn">收藏当前</button>
+                            <div id="saved-list">
+                            </div>
+                        </div>
+                    </section>
+            </aside>
+            <div class="line"></div>
+            <main id="editor-panel">
+                <section id="pattern-section">
+                    <div class="section-header-row">
+                        <label for="pattern-input" class="section-title">正则</label>
+                        <button id="btn-copy-regex" class="copy-btn">复制</button>
+                        <form id="flags">
+                            <input type="checkbox" id="flag-g" name="g" checked>
+                            <label for="flag-g">g</label>
+                            <input type="checkbox" id="flag-i" name="i" checked>
+                            <label for="flag-i">i</label>
+                            <input type="checkbox" id="flag-m" name="m">
+                            <label for="flag-m">m</label>
+                            <input type="checkbox" id="flag-s" name="s">
+                            <label for="flag-s">s</label>
+                            <input type="checkbox" id="flag-u" name="u">
+                            <label for="flag-u">u</label>
+                        </form>
+                    </div>
+                    <textarea type="text" id="pattern-input" rows="1" placeholder="输入正则表达式，如 \d+"></textarea>
+                </section>
+                <section id="replace-section">
+                    <div class="section-header-row">
+                        <label for="replace-input" class="section-title">替换文本</label>
+                        <button id="btn-copy-replace" class="copy-btn">复制</button>
+                    </div>
+                    <div id="replace-row">
+                        <textarea type="text" id="replace-input" rows="1" placeholder="输入替换文本"></textarea>
+                    </div>
+                </section>
+                <section id="test-section">
+                    <div class="section-header-row">
+                        <label for="test-input" class="section-title">测试文本</label>
+                        <button id="btn-copy-test" class="copy-btn">复制</button>
+                    </div>
+                    <textarea id="test-input" placeholder="输入要测试的文本"></textarea>
+                </section>
+            </main>
+            <div id="resizer" class="line"></div>
+            <div id="result-panel">
+                <section id="result-section">
+                    <div class="section-header-row">
+                        <div class="section-title">结果</div>
+                    </div>
+                    <div id="result-content">
+                        <div id="result-header">
+                        </div>
+                        <div id="result-list">
+                        </div>
+                    </div>
+                </section>
+                <section id="replace-result-section">
+                    <div class="section-header-row">
+                        <div class="section-title">替换结果</div>
+                        <button id="btn-copy-result" class="copy-btn">复制</button>
+                    </div>
+                    <textarea id="replace-preview" placeholder="显示替换结果以及错误信息" disabled></textarea>
+                </section>
+            </div>
+        </div>
+        <script src="./script/matcher.js"></script>
+        <script src="./script/render.js"></script>
+        <script src="./script/respace.js"></script>
+        <script src="./script/resizer.js"></script>
+        <script src="./script/storage.js"></script>
+        <script src="./script/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+#test-input,
+#pattern-input,
+#replace-input,
+#replace-preview {
+    font-size: 1.2rem;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    background-color: #2c2c2a;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.1s ease;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary) var(--bg-secondary); /* 滚动条 */
+    resize: none; /* 禁止调整宽高 */
+}
+
+#pattern-input,
+#replace-input {
+    height: auto;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#test-input,
+#replace-preview {
+    flex: 1;
+}
+
+#pattern-input:hover,
+#pattern-input:focus,
+#test-input:hover,
+#test-input:focus,
+#replace-input:hover,
+#replace-input:focus,
+#replace-preview:hover,
+#replace-preview:focus {
+    box-shadow: 0 0 0 1px var(--bg-tertiary);
+    outline: none;
+}
+
+.section-header-row {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 错误处理 */
+#pattern-input.error,
+#replace-preview.error {
+    outline: 1.5px solid var(--error); 
+    box-shadow: 0 0 12px 2px var(--bg-error);
+}
+
+#replace-preview.error {
+    color: var(--error);
+}

@@ -1,0 +1,61 @@
+#result-section {
+    height: 45%;
+}
+
+#replace-result-section {
+    flex: 1;
+}
+
+#result-panel > section,
+#result-list {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* 允许收缩 */
+}
+
+/* 结果 */
+#result-section {
+    padding-bottom: 10px;
+}
+
+#result-content {
+    flex: 1;
+    display: flex;
+    border-radius: 12px;
+    background-color: var(--bg-secondary);
+    min-height: 0; /* 允许 flex 子项收缩 */
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+#result-header {
+    height: 30px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+#result-list { /* 结果列表 */
+    width: 100%;
+    align-items: center;
+    overflow-y: auto;
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary) var(--bg-secondary);
+}
+
+#no-match,
+.result-card {
+    width: 96%;
+    margin: 4px 0;
+    background-color: #121212;
+}
+
+#no-match {
+    text-align: center;
+}
+
+.result-card {
+    white-space: pre-wrap;
+}

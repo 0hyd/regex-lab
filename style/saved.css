@@ -1,0 +1,131 @@
+/* 收藏侧边栏 */
+#saved-sidebar {
+    position: relative;
+    transition: width 0.2s ease, padding 0.2s ease;
+    overflow: hidden;
+    background-color: var(--bg-panel-darker);
+}
+
+#saved-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#saved-sidebar.collapsed {
+    
+    width: 35px;
+    padding: 0;
+}
+
+/* 折叠的时候不可见 */
+#saved-sidebar.collapsed #saved-section {
+    display: none; 
+}
+
+/* 折叠按钮 */
+#toggle-btn { 
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    top: 4px;
+    right: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* 标题 */
+#heading-common,
+#heading-saved {
+    margin: 8px 0;
+    cursor: pointer;
+    user-select: none;  /* 不允许选中 */
+    
+}
+/* 折叠隐藏 */
+#saved-section .collapsible {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    min-height: 0;
+    /* 折叠动画 */
+    overflow: hidden;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* 折叠态 */
+#saved-section .collapsible.collapsed {
+    max-height: 40px;
+}
+
+/* 卡片 */
+#common-list,
+#saved-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary) var(--bg-panel-darker);
+}
+
+.common-card,
+.saved-card {
+    width: 96%;
+    margin: 4px 0;
+    padding: 0 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.common-card:hover,
+.saved-card:hover {
+    background-color: var(--card-hover);
+}
+
+.common-card > div,
+.saved-card > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.common-card h4,
+.saved-card h4 {
+    margin: 2px 0 4px 0;
+    display: inline-block;
+}
+
+.common-card code,
+.saved-card code {
+    display: -webkit-box; /* 新盒子 */
+    font-size: 0.8rem;
+    /* 调整隐藏 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all; /* 防止超长单词溢出 */
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+    line-clamp: 2; 
+}
+
+/* 收藏按钮 */
+#save-btn {
+    display: block;
+    height: 40px;
+    border: 2px solid var(--bg-secondary);
+    border-radius: 8px;
+}
+
+#save-btn.error {
+    outline: 1.5px solid var(--error);
+    box-shadow: 0 0 12px 1px var(--bg-error);
+    color: var(--error);
+}
