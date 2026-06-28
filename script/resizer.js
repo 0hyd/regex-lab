@@ -38,6 +38,8 @@ document.addEventListener('mousemove', (minfo) => {
 
     divEditorPanel.style.flex = '1 1 0';
     divResultPanle.style.flex = '0 1 ' + newWidth + '%';
+    autoGrow(inputPattern, 88); // 刷新输入框高度
+    autoGrow(inputReplace, 132);
 });
 
 document.addEventListener('mouseup', () => {
