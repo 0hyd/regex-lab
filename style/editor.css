@@ -6,8 +6,10 @@
     color: var(--text-secondary);
 }
 
+/* 输入 */
 #flags > input {
-    accent-color: var(--accent); 
+    accent-color: var(--accent);
+    cursor: pointer;
 }
 
 #editor-panel > section {
