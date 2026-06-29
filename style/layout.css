@@ -39,14 +39,14 @@ section {
 
 /* 分割线 */
 .line {
-    width: 5px;
+    width: 6px;
     background-color: transparent;
     position: relative;
     flex-shrink: 0; /* 不可压缩 */
 }
 
 .line::after {
-    content: "";                /* ← 伪元素必须有 content */
+    content: ""; /* ← 伪元素必须有 content */
     position: absolute;
     left: 50%;
     top: 0;
