@@ -1,8 +1,3 @@
-const inputPattern = document.querySelector('#pattern-input');
-const inputTest    = document.querySelector('#test-input');
-const inputReplace = document.querySelector("#replace-input");
-const formFlags    = document.querySelector('#flags');
-
 function debounce(fn, delay) { // 防抖，function开口的会声明函数
     let timer = null;
     return function(...args) {
@@ -12,6 +7,17 @@ function debounce(fn, delay) { // 防抖，function开口的会声明函数
         }, delay);
     }
 }
+
+/**
+ * 编辑区：
+ * 包括触发计算正则
+ * 复制功能
+ */
+
+const inputPattern = document.querySelector('#pattern-input');
+const inputTest    = document.querySelector('#test-input');
+const inputReplace = document.querySelector("#replace-input");
+const formFlags    = document.querySelector('#flags');
 
 let replacePreviewText = '';
 
@@ -77,6 +83,12 @@ bindCopy(btnCopyText,    () => inputTest.value);
 bindCopy(btnCopyresult,  () => replacePreviewText);
 
 
+/**
+ * 侧边栏功能区：
+ * 包裹折叠、收藏等功能
+ */
+
+
 // 边框折叠
 const divSavedSidebar = document.querySelector('#saved-sidebar');
 const btnToggle = document.querySelector('#toggle-btn');
@@ -126,8 +138,11 @@ divCommonList.addEventListener('click', (e) => {
     handlePatternInput();
 })
 
-// 收藏点击跳转
+/**
+ * 收藏功能
+ */
 
+// 收藏点击跳转
 divSavedList.addEventListener('click', (e) => {
     const card = e.target.closest('.saved-card');
     if (!card) return;
@@ -152,7 +167,6 @@ divSavedList.addEventListener('click', (e) => {
 })
 
 // 收藏当前
-
 const btnSave = document.querySelector('#save-btn');
 
 btnSave.addEventListener('click', () => {
@@ -175,7 +189,6 @@ btnSave.addEventListener('click', () => {
 });
 
 // 按钮错误信息显示
-
 function btnSavedError(error, time) {
     btnSave.textContent = error;
     btnSave.classList.add('error');
@@ -186,3 +199,7 @@ function btnSavedError(error, time) {
         btnSave.classList.remove('error');
     }, time);
 }
+
+/**
+ * footer 功能区
+ */
