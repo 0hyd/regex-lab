@@ -28,7 +28,7 @@ const PRESETS = [
     {
         id: 'preset-url',
         name: '🌐 URL',
-        pattern: '(?<![\\w./-])https?://[\\w./?=&%-]+',
+        pattern: '(?<![\\w./-])https?:\/\/[\\w./?=&%-]+',
         flags: 'gi',
         replace: '[这是链接]',
         test: '官网：https://www.example.com\n' +
