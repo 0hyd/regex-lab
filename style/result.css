@@ -28,6 +28,8 @@
     align-items: center;
     font-size: 1.2rem;
     color: #ffffff;
+    user-select: text;
+    /* 允许复制 */
 }
 
 #result-header {
@@ -36,9 +38,11 @@
     text-align: center;
 }
 
+/* 结果卡片 */
 #result-list { /* 结果列表 */
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    align-items: center;
     overflow-y: auto;
     min-height: 0;
     scrollbar-width: thin;
@@ -58,4 +62,11 @@
 
 .result-card {
     white-space: pre-wrap;
+}
+
+/* 捕获组 */
+#result-list > ol {
+    margin: 0;
+    font-size: 1.1rem;
+    user-select: text;
 }

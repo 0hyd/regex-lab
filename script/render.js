@@ -72,10 +72,18 @@ function render(matchArray) {
         resultList.innerHTML = `<article id='no-match'>无匹配结果</article>`;
     } else {
         matchArray.forEach((item,idx) => {
-            const card = document.createElement('article');
+            const card = document.createElement('article'); // 创建卡片
             card.textContent = `${idx+1}. 位置 ${item.index}-${item.index+item.match.length}: ${item.match}`;
             card.className = 'result-card';
+            const captureList = document.createElement('ol');
+            item.groups.forEach((g, idx) => {
+                const captureCard = document.createElement('li');
+                captureCard.textContent = `组: ${g}`;
+                captureCard.className = 'capture-card';
+                captureList.appendChild(captureCard);
+            });
             resultList.appendChild(card);
+            resultList.appendChild(captureList);
         });
     }
     textareaReplace.value = replacePreviewText;
