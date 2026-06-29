@@ -49,6 +49,7 @@
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
+    align-items: center;
     min-height: 0;
     /* 折叠动画 */
     overflow: hidden;
@@ -119,6 +120,7 @@
 /* 收藏按钮 */
 #save-btn {
     display: block;
+    width: 96%;
     height: 40px;
     border: 2px solid var(--bg-secondary);
     border-radius: 8px;
