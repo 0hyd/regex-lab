@@ -174,7 +174,7 @@ btnSave.addEventListener('click', () => {
     const text = inputTest.value;
 
     if (!pattern) {
-        btnSavedError('空的正则表达式', 1000);
+        btnSavedInfo('空的正则表达式', 1000, 'error');
         return;
     }
 
@@ -189,9 +189,11 @@ btnSave.addEventListener('click', () => {
 });
 
 // 按钮错误信息显示
-function btnSavedError(error, time) {
-    btnSave.textContent = error;
-    btnSave.classList.add('error');
+function btnSavedInfo(info, time, type) {
+    btnSave.textContent = info;
+    if (type === 'error') {
+        btnSave.classList.add('error');
+    }
     let Timer = null;
     clearTimeout(Timer);
     Timer = setTimeout(() => {
