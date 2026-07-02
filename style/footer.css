@@ -1,0 +1,11 @@
+#sidebar-footer {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-around;
+    width: 100%;
+}
+
+#sidebar-footer > button {
+    display: inline-block;
+    height: 36px;
+}
