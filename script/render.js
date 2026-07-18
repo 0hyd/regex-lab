@@ -95,7 +95,13 @@ function render(matchArray) {
     } else {
         matchArray.forEach((item,idx) => {
             const card = document.createElement('article'); // 创建卡片
-            card.textContent = `${idx+1}. 位置 ${item.index}-${item.index+item.match.length}: ${item.match}`;
+
+            const divIdx = document.createElement('div');
+            divIdx.textContent = `${idx + 1}. 位置 ${item.index}-${item.index + item.match.length}:`;
+
+            const divMatch = document.createElement('div');
+            divMatch.textContent = item.match;
+
             card.className = 'result-card';
             const captureList = document.createElement('ol');
             item.groups.forEach((g, idx) => {
@@ -104,8 +110,12 @@ function render(matchArray) {
                 captureCard.className = 'capture-card';
                 captureList.appendChild(captureCard);
             });
+
+            card.appendChild(divIdx);
+            card.appendChild(divMatch);
+            card.appendChild(captureList);
+            
             resultList.appendChild(card);
-            resultList.appendChild(captureList);
         });
     }
     textareaReplace.value = replacePreviewText;

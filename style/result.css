@@ -42,27 +42,41 @@
 #result-list { /* 结果列表 */
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
+    width: 96%;
     overflow-y: auto;
     min-height: 0;
     scrollbar-width: thin;
     scrollbar-color: var(--text-secondary) var(--bg-secondary);
 }
 
+.result-card {
+    white-space: pre-wrap;
+}
+
 #no-match,
 .result-card {
     width: 96%;
     margin: 4px 0;
-    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.result-card div:first-child {
+    text-align: center;
+    font-size: 1.1rem;
+    text-decoration: underline 2px var(--accent);
+}
+
+.result-card ol {
+    margin: 0;
 }
 
 #no-match {
     text-align: center;
 }
 
-.result-card {
-    white-space: pre-wrap;
-}
+
 
 /* 捕获组 */
 #result-list > ol {

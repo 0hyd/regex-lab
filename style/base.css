@@ -8,6 +8,7 @@
     --bg-secondary: hsl(60, 2%, 17%);    /* 次级背景（按钮、卡片） */
     --bg-tertiary: hsl(60, 2%, 22%);     /* 悬停状态 */
     --bg-panel-darker: hsl(60, 2%, 11%); /* 加深对比 */
+    --bg-rusult-card: hsl(15, 90%, 10%);
 
     --card-bg: ;
     --card-hover: #121212;;
