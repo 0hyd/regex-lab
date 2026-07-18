@@ -63,9 +63,6 @@ const PRESETS = [
     }
 ];
 
-renderPresets(PRESETS);
-renderSaved(loadPatterns());  // 页面加载时从 localStorage 读取并渲染
-
 // 用户收藏
 //加载本地数据
 function loadPatterns() {
@@ -93,8 +90,6 @@ function saveToLocal(savedData) {
             alert('存储已满，请删除部分收藏'); // todo what
         }
     }
-
-    renderSaved(loadPatterns());
 }
 
 const MAX_TEST_LENGTH = 10000;     // test 字段上限
@@ -112,7 +107,7 @@ function savePattern(regex, flags, replace, text) {
         item.text === text
     );
     if (isAlreadyHave) {
-        btnSavedError('该收藏已存在', 1000);
+        btnSavedInfo('该收藏已存在', 1000, 'error');
         return;
     }
 
@@ -120,35 +115,71 @@ function savePattern(regex, flags, replace, text) {
     if (
         regex.length > MAX_TEST_LENGTH ||
         replace.length > MAX_TEST_LENGTH) {
-            btnSavedError('正则过长，保存失败', 3000);
+            btnSavedInfo('正则过长，保存失败', 3000, 'error');
             return;
         }
-    if (text.length > MAX_TEST_LENGTH) {
-        text = '';
-        btnSavedError('测试文本过长，仅保存正则相关内容', 3000);
-    }
 
     // 保存
-    const newSavedData = {
-        id     : 'user-' + Date.now(), // 时间戳
-        name   : new Date().toLocaleString(), // 命名1为中文格式时间
-        regex  : regex,
-        flags  : flags,
-        replace: replace,
-        text   : text
-    };
-
-    savedData.push(newSavedData);
+    if (editMode) {
+        if (editingId) {
+            const item = savedData.find(item => item.id === editingId);
+            if (item) {
+                item.regex   = regex,
+                item.flags   = flags,
+                item.replace = replace,
+                item.text    = text
+            } else {
+                editingId = null;
+            }
+        } else {
+            btnSavedInfo('未选择收藏条目', 2000, 'error');
+            return;
+        }
+        
+    } else {
+        const newSavedData = {
+            id     : 'user-' + Date.now(), // 时间戳
+            name   : new Date().toLocaleString(), // 命名为中文格式时间
+            regex  : regex,
+            flags  : flags,
+            replace: replace,
+            text   : text
+        };
+        savedData.push(newSavedData);
+    }
+    
     saveToLocal(savedData);
+    renderSaved(loadPatterns());
 
-    console.log('收藏成功');
+    // 保存提示
+    if (text.length > MAX_TEST_LENGTH) {
+        text = '';
+        btnSavedInfo('测试文本过长，仅保存正则相关内容', 3000);
+    } else {
+        btnSavedInfo('保存成功', 1500);
+    }
 }
 
 // 删除
 function deletePattern(id) {
     /** @type {Array} */
+    if (id === editingId) {
+        editingId === null;
+    }
     let savedData = loadPatterns();
-    savedData.filter(item => item.id !== id);
-    saveToLocal(savedData);
+    const filtered = savedData.filter(item => item.id !== id);
+    saveToLocal(filtered);
+    renderSaved(loadPatterns());
 }
 
+// 编辑标题
+function editSavedTitle(id, name) {
+    /**@type {Array} */
+    let savedData = loadPatterns();
+    
+    const item = savedData.find(item => item.id === id);
+    if (item) {
+        item.name = name;
+    }
+    saveToLocal(savedData);
+}

@@ -1,3 +1,6 @@
+let editMode = false; // 编辑模式
+let editingId = null;
+
 function debounce(fn, delay) { // 防抖，function开口的会声明函数
     let timer = null;
     return function(...args) {
@@ -143,11 +146,8 @@ divCommonList.addEventListener('click', (e) => {
  */
 
 // 收藏点击跳转
-divSavedList.addEventListener('click', (e) => {
-    const card = e.target.closest('.saved-card');
-    if (!card) return;
 
-    const id = card.dataset.id;
+function savedToShow(id) {
     const savedData = loadPatterns();
     const preset = savedData.find(p => p.id === id);
     if (!preset) return;
@@ -164,7 +164,33 @@ divSavedList.addEventListener('click', (e) => {
     });
 
     handlePatternInput();
+}
+
+divSavedList.addEventListener('click', (e) => {
+    const card = e.target.closest('.saved-card');
+    if (!card) return;
+    editingId = card.dataset.id;
+    savedToShow(editingId); // 显示收藏
+    
+    if (e.target.closest('.btn-delete')) { // 删除功能
+        deletePattern(editingId);
+        return;
+    }
+
+    divSavedList.querySelectorAll('.saved-card.editing').forEach(c => {
+        c.classList.remove('editing');
+    });
+
+    card.classList.add('editing');
 })
+
+// 编辑收藏名称
+divSavedList.addEventListener('input', (e) => {
+    const card = e.target.closest('.saved-card');
+    const input = e.target.closest('.card-name-input');
+    editSavedTitle(card.dataset.id, input.value);
+});
+
 
 // 收藏当前
 const btnSave = document.querySelector('#save-btn');
@@ -197,11 +223,33 @@ function btnSavedInfo(info, time, type) {
     let Timer = null;
     clearTimeout(Timer);
     Timer = setTimeout(() => {
-        btnSave.textContent = '收藏当前';
+        if (editMode) {
+            btnSave.textContent = '编辑模式：保存至当前选中项';
+        } else {
+            btnSave.textContent = '收藏当前';
+        }
         btnSave.classList.remove('error');
     }, time);
 }
 
 /**
- * footer 功能区
+ * footer 功能区：
  */
+const btnEditSaved = document.querySelector('#btn-edit-saved');
+const divWorkspace = document.querySelector('#workspace');
+btnEditSaved.addEventListener('click', () => {
+    editMode = !editMode;
+    if (editMode) {
+        divWorkspace.classList.add('edit-mode');
+        btnSave.textContent = '编辑模式：保存至当前选中项';
+        btnEditSaved.textContent = '退出';
+    } else {
+        divWorkspace.classList.remove('edit-mode');
+        btnSave.textContent = '收藏当前';
+        btnEditSaved.textContent = '编辑';
+    }
+    renderSaved(loadPatterns());
+})
+
+renderPresets(PRESETS);
+renderSaved(loadPatterns());  // 页面加载时从 localStorage 读取并渲染

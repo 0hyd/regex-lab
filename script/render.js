@@ -31,27 +31,49 @@ function renderPresets(presets) {
 // 渲染收藏列表
 const divSavedList = document.querySelector('#saved-list');
 
-function renderSaved(savedData) {
+function renderSaved(savedData) { // idEdit 切换是否编辑
     divSavedList.innerHTML = ``;
 
     savedData.slice().reverse().forEach((item) => {
         const card  = document.createElement('article'); // 创建子元素
         card.classList.add('saved-card');
         card.dataset.id = item.id;
-
+        
         const cardHeader = document.createElement('div');
-        const title = document.createElement('h4');
-        title.textContent = item.name;
+        
+        if (editMode) {
+            const inputTitle = document.createElement('input');
+            inputTitle.value = item.name;
+            inputTitle.id= `name-${item.id}`;
+            inputTitle.classList.add('card-name-input');
+            cardHeader.appendChild(inputTitle);
+        } else {
+            const title = document.createElement('h4');
+            title.textContent = item.name;
+            cardHeader.appendChild(title);
+        }
+        const title = document.createElement('input');
+        title.value = item.name;
+        title.id= `name-${item.id}`;
+        title.classList.add('card-name-input');
+        
+
         const flags = document.createElement('span');
         flags.textContent = `/${item.flags}`;
-
-        cardHeader.appendChild(title);
         cardHeader.appendChild(flags);
-
-        const regex = document.createElement('code');
-        regex.textContent = item.regex;
+        
+        if (editMode) {
+            const btnDelete = document.createElement('button');
+            btnDelete.textContent = '❌';
+            btnDelete.classList.add('btn-delete');
+            title.disabled = false;
+            cardHeader.appendChild(btnDelete);
+        }
         
         card.appendChild(cardHeader);
+        
+        const regex = document.createElement('code');
+        regex.textContent = item.regex;
         card.appendChild(regex);
 
         divSavedList.appendChild(card);

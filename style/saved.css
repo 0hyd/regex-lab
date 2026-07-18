@@ -101,14 +101,31 @@
 .common-card > div,
 .saved-card > div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
-.common-card h4,
-.saved-card h4 {
+.common-card > div {
+    justify-content: space-between;
+}
+
+.saved-card > div {
+    display: flex;
+    gap: 4px;
+}
+
+.common-card h4 {
     margin: 2px 0 4px 0;
-    display: inline-block;
+}
+
+.saved-card h4,
+.card-name-input {
+    flex: 1 1 0;
+    min-width: 0;   /* 覆盖 min-width: auto */
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    margin: 0;
+    padding: 2px 0 4px 0;
 }
 
 .common-card code,
@@ -137,4 +154,37 @@
     outline: 1.5px solid var(--error);
     box-shadow: 0 0 12px 1px var(--bg-error);
     color: var(--error);
+}
+
+/* 编辑模式 */
+
+.card-name-input { /* 编辑标题 */
+    flex: 1 1 0;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.1s ease;
+    cursor: default;
+}
+
+#workspace.edit-mode .card-name-input {
+    background-color: var(--bg-secondary);
+}
+
+#workspace.edit-mode .card-name-input:hover,
+#workspace.edit-mode .card-name-input:focus {
+    box-shadow: 0 0 0 2px var(--bg-tertiary);
+    outline: none;
+    cursor: text; 
+}
+
+/* 选中高亮 */
+.saved-card.editing {
+    background-color: var(--card-hover);
+}
+
+.btn-delete {
+    padding: 2px;
 }

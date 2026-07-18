@@ -23,7 +23,7 @@ section {
 #saved-sidebar {
     flex: 0 0 auto;
     width: 20%;
-    padding: 16px 8px;
+    padding: 16px 8px 0 16px;
 }
 
 #editor-panel {
