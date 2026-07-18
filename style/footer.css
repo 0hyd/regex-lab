@@ -6,6 +6,59 @@
 }
 
 #sidebar-footer > button {
-    display: inline-block;
+    display: flex;
+    font-size: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 36px;
+}
+
+/* 图标用 mask (::before) */
+#sidebar-footer > button::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-color: currentColor;         /* 颜色跟随按钮文字 */
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    flex-shrink: 0;
+}
+
+/* 分别为每个按钮指定 SVG 文件 */
+#btn-edit-saved::before {
+    mask-image: url('../assets/edit.svg');
+}
+
+#btn-theme::before {
+    mask-image: url('../assets/theme.svg');
+}
+
+#btn-export::before {
+    mask-image: url('../assets/export.svg');
+}
+
+#btn-import::before {
+    mask-image: url('../assets/import.svg');
+}
+
+/* 隐藏后显示 */
+
+#saved-sidebar.collapsed #sidebar-footer {
+    flex-direction: column;
+}
+
+#saved-sidebar.collapsed #btn-edit-saved {
+    display: none;
+}
+
+#saved-sidebar.collapsed #sidebar-footer > button {
+    font-size: 0;
+}
+
+#saved-sidebar.collapsed #sidebar-footer > button::before {
+    width: 24px;
+    height: 24px;
 }

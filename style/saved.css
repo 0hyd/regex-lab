@@ -4,6 +4,7 @@
     transition: width 0.2s ease, padding 0.2s ease;
     overflow: hidden;
     background-color: var(--bg-panel-darker);
+    justify-content: flex-end;
 }
 
 #saved-section {
@@ -16,7 +17,8 @@
 
 #saved-sidebar.collapsed {
     width: 35px;
-    padding: 0;
+    padding: 8px 0;
+
 }
 
 /* 折叠的时候不可见 */
