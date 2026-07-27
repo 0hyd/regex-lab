@@ -6,3 +6,10 @@ function replaceText(regex, text, replacement) {
     const result = text.replace(regex, processedReplacement);
     return result;
 }
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}

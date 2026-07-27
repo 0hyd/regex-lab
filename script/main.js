@@ -18,7 +18,6 @@ function debounce(fn, delay) { // 防抖，function开口的会声明函数
  */
 
 const inputPattern = document.querySelector('#pattern-input');
-const inputTest    = document.querySelector('#test-input');
 const inputReplace = document.querySelector("#replace-input");
 const formFlags    = document.querySelector('#flags');
 
@@ -27,7 +26,7 @@ let replacePreviewText = '';
 function handlePatternInput() { // 会声明函数
     const textPattern = inputPattern.value;
     const textTest = inputTest.value;
-    
+
     if (!textPattern || !textTest) {
         renderResults([], '');
         return;
@@ -46,6 +45,8 @@ function handlePatternInput() { // 会声明函数
     replacePreviewText = replaceText(regex, textTest, textReplace); // 预览替换
 
     renderResults(matchArray, replacePreviewText);
+
+    syncHighlight();
 }
 
 // 因为函数已经声明，可以写到开头，但逻辑上写到结尾更合理
@@ -53,6 +54,8 @@ inputPattern.addEventListener('input', debounce(handlePatternInput, 300));
 inputTest.   addEventListener('input', debounce(handlePatternInput, 300));
 inputReplace.addEventListener('input', debounce(handlePatternInput, 300));
 formFlags.   addEventListener('input', handlePatternInput);
+inputTest.   addEventListener('input', syncHighlight);
+inputTest.   addEventListener('scroll', syncScroll);
 
 // 输入框大小灵活调整
 function autoGrow(el, maxHeight) {

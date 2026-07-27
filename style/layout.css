@@ -20,6 +20,13 @@ section {
     user-select: none;
 }
 
+.section-header-row { /* 章节头 */
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    gap: 6px;
+}
+
 #saved-sidebar {
     flex: 0 0 auto;
     width: 20%;

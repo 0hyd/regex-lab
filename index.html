@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="./style/saved.css">
         <link rel="stylesheet" href="./style/editor.css">
         <link rel="stylesheet" href="./style/result.css">
+        <link rel="stylesheet" href="./style/overlay.css">
         <link rel="stylesheet" href="./style/footer.css">
     </head>
     <body>
@@ -74,7 +75,11 @@
                         <label for="test-input" class="section-title">测试文本</label>
                         <button id="btn-copy-test" class="copy-btn">复制</button>
                     </div>
-                    <textarea id="test-input" placeholder="输入要测试的文本"></textarea>
+                    <div class="highlight-wrapper">
+                        <pre class="highlight-layer" aria-hidden="true"></pre>
+                        <textarea id="test-input" placeholder="输入要测试的文本"></textarea>
+                    </div>
+                    
                 </section>
             </main>
             <div id="resizer" class="line"></div>
@@ -104,6 +109,7 @@
         <script src="./script/respace.js"></script>
         <script src="./script/resizer.js"></script>
         <script src="./script/storage.js"></script>
+        <script src="./script/overlay.js"></script>
         <script src="./script/footer.js"></script>
         <script src="./script/main.js"></script>
     </body>

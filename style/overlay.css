@@ -1,0 +1,39 @@
+/* 高亮 */
+.highlight-wrapper {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+.highlight-layer {
+    /* 绝对定位 */
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    /* 行为 */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    pointer-events: none; /* 点击穿透到 textarea */
+}
+
+#test-input {
+    position: relative; /* 配合调整层级 */
+    z-index: 1;
+    background: transparent;       /* 露出底层 pre */
+    color: transparent;            /* 隐藏自己文字 */
+    caret-color: var(--text-primary); /* 但保留光标可见 */
+}
+
+.inv-char {
+    opacity: 0.35;
+    user-select: none;
+    /* 不参与文本流布局，避免提前换行 */
+    display: inline;
+    margin-left: -1ch;        /* 取消自身所占宽度 */
+    position: relative;
+    left: 1ch;                /* 视觉上回到原位 */
+}
