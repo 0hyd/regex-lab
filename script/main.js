@@ -1,7 +1,7 @@
 let editMode = false; // 编辑模式
 let editingId = null;
 
-function debounce(fn, delay) { // 防抖，function开口的会声明函数
+function debounce(fn, delay) { // 防抖，function开头的会声明函数
     let timer = null;
     return function(...args) {
         clearTimeout(timer);
