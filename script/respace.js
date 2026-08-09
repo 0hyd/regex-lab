@@ -13,3 +13,13 @@ function escapeHtml(text) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
+
+function renderText(text) {
+    return escapeHtml(text)
+        .replace(/\n/g, '<span class="inv-char">↵</span>\n')
+        .replace(/\t/g, '<span class="inv-char">→</span>');
+}
+
+function renderMatch(text) {
+    return `<mark class="match-highlight">${renderText(text)}</mark>`;
+}

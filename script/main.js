@@ -29,6 +29,7 @@ function handlePatternInput() { // 会声明函数
 
     if (!textPattern || !textTest) {
         renderResults([], '');
+        syncHighlight([]);
         return;
     }
     const formFlagsData = new FormData(formFlags);
@@ -37,6 +38,7 @@ function handlePatternInput() { // 会声明函数
     if (error) {
         replacePreviewText = `${error}`;
         renderErrorResults([], `无效的正则：\n${error}`);
+        syncHighlight([]);
         return;
     }
     const matchArray = runMatch(regex, textTest); // 匹配结果
@@ -45,15 +47,25 @@ function handlePatternInput() { // 会声明函数
     replacePreviewText = replaceText(regex, textTest, textReplace); // 预览替换
 
     renderResults(matchArray, replacePreviewText);
-
-    syncHighlight();
+    syncHighlight(matchArray);
 }
 
+const debouncedHandlePatternInput = debounce(handlePatternInput, 300);
+
 // 因为函数已经声明，可以写到开头，但逻辑上写到结尾更合理
-inputPattern.addEventListener('input', debounce(handlePatternInput, 300));
-inputTest.   addEventListener('input', debounce(handlePatternInput, 300));
-inputReplace.addEventListener('input', debounce(handlePatternInput, 300));
-formFlags.   addEventListener('input', handlePatternInput);
+inputPattern.addEventListener('input', () => {
+    syncHighlight([]);
+    debouncedHandlePatternInput();
+});
+inputTest.   addEventListener('input', () => {
+    syncHighlight([]);
+    debouncedHandlePatternInput();
+});
+inputReplace.addEventListener('input', debouncedHandlePatternInput);
+formFlags.   addEventListener('input', () => {
+    syncHighlight([]);
+    handlePatternInput();
+});
 inputTest.   addEventListener('input', syncHighlight);
 inputTest.   addEventListener('scroll', syncScroll);
 

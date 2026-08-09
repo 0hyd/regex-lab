@@ -37,3 +37,9 @@
     position: relative;
     left: 1ch;                /* 视觉上回到原位 */
 }
+
+.match-highlight {
+    background-color: rgba(217, 119, 87, 0.35);
+    border-radius: 2px;
+    color: var(--text-primary);
+}

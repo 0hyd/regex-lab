@@ -1,17 +1,27 @@
 const inputTest = document.querySelector('#test-input');
 const preTest   = document.querySelector('.highlight-layer');
 
-function syncHighlight() {
+function syncHighlight(matchArray = []) {
     const text = inputTest.value;
+    let html = '';
+    let lastIndex = 0;
 
-    let htmlText = escapeHtml(text)
-        .replace(/\n/g, '<span class="inv-char">↵</span>\n')
-        .replace(/\t/g, '<span class="inv-char">→</span>');
+    matchArray.forEach(item => {
+        const matchStart = item.index;
+        const matchEnd = matchStart + item.match.length;
 
-    if (!htmlText.endsWith('\n')) {
-        htmlText += '\n';
+        html += renderText(text.slice(lastIndex,matchStart));
+        html += renderMatch(text.slice(matchStart,matchEnd));
+
+        lastIndex = matchEnd;
+    });
+
+    html += renderText(text.slice(lastIndex));
+        
+    if (!html.endsWith('\n')) {
+        html += '\n';
     }
-    preTest.innerHTML = htmlText;
+    preTest.innerHTML = html;
 }
 
 // 同步滚动条
