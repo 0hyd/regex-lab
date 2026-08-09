@@ -164,7 +164,7 @@ function savePattern(regex, flags, replace, text) {
 function deletePattern(id) {
     /** @type {Array} */
     if (id === editingId) {
-        editingId === null;
+        editingId = null;
     }
     let savedData = loadPatterns();
     const filtered = savedData.filter(item => item.id !== id);

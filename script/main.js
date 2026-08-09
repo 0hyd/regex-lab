@@ -184,13 +184,14 @@ function savedToShow(id) {
 divSavedList.addEventListener('click', (e) => {
     const card = e.target.closest('.saved-card');
     if (!card) return;
-    editingId = card.dataset.id;
-    savedToShow(editingId); // 显示收藏
     
     if (e.target.closest('.btn-delete')) { // 删除功能
-        deletePattern(editingId);
+        deletePattern(card.dataset.id);
         return;
     }
+
+    editingId = card.dataset.id;
+    savedToShow(editingId); // 显示收藏
 
     divSavedList.querySelectorAll('.saved-card.editing').forEach(c => {
         c.classList.remove('editing');

@@ -52,12 +52,6 @@ function renderSaved(savedData) { // idEdit 切换是否编辑
             title.textContent = item.name;
             cardHeader.appendChild(title);
         }
-        const title = document.createElement('input');
-        title.value = item.name;
-        title.id= `name-${item.id}`;
-        title.classList.add('card-name-input');
-        
-
         const flags = document.createElement('span');
         flags.textContent = `/${item.flags}`;
         cardHeader.appendChild(flags);
@@ -66,7 +60,6 @@ function renderSaved(savedData) { // idEdit 切换是否编辑
             const btnDelete = document.createElement('button');
             btnDelete.textContent = '❌';
             btnDelete.classList.add('btn-delete');
-            title.disabled = false;
             cardHeader.appendChild(btnDelete);
         }
         
