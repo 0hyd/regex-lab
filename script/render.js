@@ -119,7 +119,6 @@ function renderResults(matchArray, replacePreviewText) {
     render(matchArray);
     textareaReplace.classList.remove('error');
     document.querySelector('#pattern-input').classList.remove('error');
-    textareaReplace.value = replacePreviewText;
 }
 
 function renderErrorResults(matchArray, replacePreviewText) {
