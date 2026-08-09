@@ -4,25 +4,50 @@
 
 :root {
     /* 深色主题 */
-    --bg-primary: hsl(60, 2%, 12%);      /* 主背景 */
-    --bg-secondary: hsl(60, 2%, 17%);    /* 次级背景（按钮、卡片） */
-    --bg-tertiary: hsl(60, 2%, 22%);     /* 悬停状态 */
-    --bg-panel-darker: hsl(60, 2%, 11%); /* 加深对比 */
-    --bg-rusult-card: hsl(15, 90%, 10%);
-
+    /* 背景层级 */
+    --bg-primary: hsl(60, 2%, 12%);
+    --bg-secondary: hsl(60, 2%, 17%);
+    --bg-tertiary: hsl(60, 2%, 22%);
+    --bg-panel-darker: hsl(60, 2%, 11%);
     --card-hover: #121212;
-    
-    --text-primary: #ffffff;    /* 主文字（提高对比度） */
-    --text-secondary: #c3c2b7;  /* 次要文字 */
-    --text-muted: #030303;      /* 弱化文字 */
-    
-    --resizer: #494949;         /* 分割线 */
 
-    --accent: #d97757;          /* 强调色 */
-    --match-highlight: rgba(217, 119, 87, 0.35); /* 高亮匹配 */
+    /* 文本层级 */
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #030303;
 
+    /* 结构和强调色 */
+    --resizer: #494949;
+    --accent: #d97757;
+    --match-highlight: rgba(217, 119, 87, 0.35);
+
+    /* 错误状态 */
     --error: rgb(205, 72, 72);
     --bg-error: rgba(206, 89, 89, 0.447);
+}
+
+:root[data-theme="light"] {
+    /* 深色主题 */
+    /* 背景层级 */
+    --bg-primary: hsl(42, 25%, 96%);
+    --bg-secondary: hsl(42, 20%, 100%);
+    --bg-tertiary: hsl(36, 18%, 91%);
+    --bg-panel-darker: hsl(40, 18%, 93%);
+    --card-hover: hsl(36, 18%, 88%);
+
+    /* 文本层级 */
+    --text-primary: hsl(0, 0%, 0%);
+    --text-secondary: hsl(30, 8%, 36%);
+    --text-muted: hsl(30, 6%, 52%);
+
+    /* 结构和强调色 */
+    --resizer: hsl(30, 8%, 72%);
+    --accent: hsl(15, 62%, 43%);
+    --match-highlight: rgba(217, 119, 87, 0.24);
+
+    /* 错误状态 */
+    --error: hsl(0, 58%, 42%);
+    --bg-error: rgba(205, 72, 72, 0.18);
 }
 
 body {

@@ -134,6 +134,7 @@
 .saved-card code {
     display: -webkit-box; /* 新盒子 */
     font-size: 0.8rem;
+    font-weight: bold;
     /* 调整隐藏 */
     overflow: hidden;
     text-overflow: ellipsis;
