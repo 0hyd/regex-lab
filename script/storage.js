@@ -73,8 +73,8 @@ function loadPatterns() {
     try {
         const jsonPatterns = JSON.parse(patterns); //转为数组
         return jsonPatterns;
-    } catch(e) {
-        console.error(e.massage); // todo 错误提示
+    } catch(error) {
+        console.error(error.message); // todo 错误提示
         return [];
     }
 

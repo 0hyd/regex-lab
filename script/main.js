@@ -1,5 +1,6 @@
 let editMode = false; // 编辑模式
 let editingId = null;
+let savedInfoTimer = null;
 
 function debounce(fn, delay) { // 防抖，function开头的会声明函数
     let timer = null;
@@ -236,9 +237,8 @@ function btnSavedInfo(info, time, type) {
     if (type === 'error') {
         btnSave.classList.add('error');
     }
-    let Timer = null;
-    clearTimeout(Timer);
-    Timer = setTimeout(() => {
+    clearTimeout(savedInfoTimer);
+    savedInfoTimer = setTimeout(() => {
         if (editMode) {
             btnSave.textContent = '编辑模式：保存至当前选中项';
         } else {

@@ -1,6 +1,6 @@
 const divResizer     = document.querySelector('#resizer');
 const divEditorPanel = document.querySelector('#editor-panel');
-const divResultPanle = document.querySelector('#result-panel');
+const divResultPanel = document.querySelector('#result-panel');
 
 let isResizing = false;
 let startX = 0;
@@ -15,7 +15,7 @@ divResizer.addEventListener('mousedown', (mInfo) => {
     isResizing = true;
     mInfo.preventDefault(); 
     startX = mInfo.clientX;
-    startWidth = divResultPanle.offsetWidth;
+    startWidth = divResultPanel.offsetWidth;
 
     // 在按下时计算工作区长度，（每次拖拽都重新算）
     workspaceWidth = document.querySelector('#workspace').offsetWidth;
@@ -37,7 +37,7 @@ document.addEventListener('mousemove', (minfo) => {
     newWidth = newWidth > MAX_WIDTH ? MAX_WIDTH : newWidth;
 
     divEditorPanel.style.flex = '1 1 0';
-    divResultPanle.style.flex = '0 1 ' + newWidth + '%';
+    divResultPanel.style.flex = '0 1 ' + newWidth + '%';
     autoGrow(inputPattern, 88); // 刷新输入框高度
     autoGrow(inputReplace, 132);
 });
