@@ -67,7 +67,6 @@ formFlags.   addEventListener('input', () => {
     syncHighlight([]);
     handlePatternInput();
 });
-inputTest.   addEventListener('input', syncHighlight);
 inputTest.   addEventListener('scroll', syncScroll);
 
 // 输入框大小灵活调整
@@ -185,6 +184,7 @@ function savedToShow(id) {
 savedList.addEventListener('click', (e) => {
     const card = e.target.closest('.saved-card');
     if (!card) return;
+    if (e.target.closest('.card-name-input')) return;
     
     if (e.target.closest('.btn-delete')) { // 删除功能
         deletePattern(card.dataset.id);
