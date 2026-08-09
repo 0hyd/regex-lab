@@ -1,59 +1,59 @@
 // 渲染常用列表
-const divCommonList = document.querySelector('#common-list');
+const commonList = document.querySelector('#common-list');
 
 function renderPresets(presets) {
-    divCommonList.innerHTML = ``;
+    commonList.innerHTML = '';
 
-    presets.forEach((item, idx) => {
+    presets.forEach(preset => {
         const card  = document.createElement('article'); // 创建子元素
         card.classList.add('common-card');
-        card.dataset.id = item.id;
+        card.dataset.id = preset.id;
 
         const cardHeader = document.createElement('div');
         const title = document.createElement('h4');
-        title.textContent = item.name;
+        title.textContent = preset.name;
         const flags = document.createElement('span');
-        flags.textContent = `/${item.flags}`;
+        flags.textContent = `/${preset.flags}`;
 
         cardHeader.appendChild(title);
         cardHeader.appendChild(flags);
 
         const regex = document.createElement('code');
-        regex.textContent = item.pattern;
+        regex.textContent = preset.pattern;
         
         card.appendChild(cardHeader);
         card.appendChild(regex);
 
-        divCommonList.appendChild(card);
+        commonList.appendChild(card);
     });
 }
 
 // 渲染收藏列表
-const divSavedList = document.querySelector('#saved-list');
+const savedList = document.querySelector('#saved-list');
 
 function renderSaved(savedData) { // idEdit 切换是否编辑
-    divSavedList.innerHTML = ``;
+    savedList.innerHTML = '';
 
-    savedData.slice().reverse().forEach((item) => {
+    savedData.slice().reverse().forEach(savedPattern => {
         const card  = document.createElement('article'); // 创建子元素
         card.classList.add('saved-card');
-        card.dataset.id = item.id;
+        card.dataset.id = savedPattern.id;
         
         const cardHeader = document.createElement('div');
         
         if (editMode) {
             const inputTitle = document.createElement('input');
-            inputTitle.value = item.name;
-            inputTitle.id= `name-${item.id}`;
+            inputTitle.value = savedPattern.name;
+            inputTitle.id= `name-${savedPattern.id}`;
             inputTitle.classList.add('card-name-input');
             cardHeader.appendChild(inputTitle);
         } else {
             const title = document.createElement('h4');
-            title.textContent = item.name;
+            title.textContent = savedPattern.name;
             cardHeader.appendChild(title);
         }
         const flags = document.createElement('span');
-        flags.textContent = `/${item.flags}`;
+        flags.textContent = `/${savedPattern.flags}`;
         cardHeader.appendChild(flags);
         
         if (editMode) {
@@ -66,10 +66,10 @@ function renderSaved(savedData) { // idEdit 切换是否编辑
         card.appendChild(cardHeader);
         
         const regex = document.createElement('code');
-        regex.textContent = item.regex;
+        regex.textContent = savedPattern.regex;
         card.appendChild(regex);
 
-        divSavedList.appendChild(card);
+        savedList.appendChild(card);
     }); 
 }
 
@@ -79,33 +79,33 @@ const resultList      = document.querySelector('#result-list');
 const textareaReplace = document.querySelector('#replace-preview');
 
 function render(matchArray) {
-    resultList.innerHTML = ``;
+    resultList.innerHTML = '';
 
     resultHeader.textContent = `匹配结果 ${matchArray.length} 处`;
 
     if (matchArray.length === 0) {
         resultList.innerHTML = `<article id='no-match'>无匹配结果</article>`;
     } else {
-        matchArray.forEach((item,idx) => {
+        matchArray.forEach((matchResult, index) => {
             const card = document.createElement('article'); // 创建卡片
 
-            const divIdx = document.createElement('div');
-            divIdx.textContent = `${idx + 1}. 位置 ${item.index}-${item.index + item.match.length}:`;
+            const matchPosition = document.createElement('div');
+            matchPosition.textContent = `${index + 1}. 位置 ${matchResult.index}-${matchResult.index + matchResult.match.length}:`;
 
-            const divMatch = document.createElement('div');
-            divMatch.textContent = item.match;
+            const matchText = document.createElement('div');
+            matchText.textContent = matchResult.match;
 
             card.className = 'result-card';
             const captureList = document.createElement('ol');
-            item.groups.forEach((g, idx) => {
+            matchResult.groups.forEach(group => {
                 const captureCard = document.createElement('li');
-                captureCard.textContent = `组: ${g}`;
+                captureCard.textContent = `组: ${group}`;
                 captureCard.className = 'capture-card';
                 captureList.appendChild(captureCard);
             });
 
-            card.appendChild(divIdx);
-            card.appendChild(divMatch);
+            card.appendChild(matchPosition);
+            card.appendChild(matchText);
             card.appendChild(captureList);
             
             resultList.appendChild(card);

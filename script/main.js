@@ -82,7 +82,7 @@ inputReplace.addEventListener('input', () => autoGrow(inputReplace, 132));
 const btnCopyRegex   = document.querySelector('#btn-copy-regex');
 const btnCopyReplace = document.querySelector('#btn-copy-replace');
 const btnCopyText    = document.querySelector('#btn-copy-test');
-const btnCopyresult  = document.querySelector('#btn-copy-result');
+const btnCopyResult  = document.querySelector('#btn-copy-result');
 
 function bindCopy(btn, text) {
     let Timer = null;
@@ -99,7 +99,7 @@ function bindCopy(btn, text) {
 bindCopy(btnCopyRegex,   () => inputPattern.value);
 bindCopy(btnCopyReplace, () => inputReplace.value);
 bindCopy(btnCopyText,    () => inputTest.value);
-bindCopy(btnCopyresult,  () => replacePreviewText);
+bindCopy(btnCopyResult,  () => replacePreviewText);
 
 
 /**
@@ -109,11 +109,11 @@ bindCopy(btnCopyresult,  () => replacePreviewText);
 
 
 // 边框折叠
-const divSavedSidebar = document.querySelector('#saved-sidebar');
+const savedSidebar = document.querySelector('#saved-sidebar');
 const btnToggle = document.querySelector('#toggle-btn');
 btnToggle.addEventListener('click', () => {
-    divSavedSidebar.classList.toggle('collapsed');
-    const text = divSavedSidebar.classList.contains('collapsed') ? '▶' : '◀';
+    savedSidebar.classList.toggle('collapsed');
+    const text = savedSidebar.classList.contains('collapsed') ? '▶' : '◀';
     btnToggle.textContent = text;
 });
 
@@ -136,12 +136,12 @@ h2HeadingSaved.addEventListener('click', (e) => {
 
 
 // 常用点击跳转
-divCommonList.addEventListener('click', (e) => {
+commonList.addEventListener('click', (e) => {
     const card = e.target.closest('.common-card');
     if (!card) return;
 
     const id = card.dataset.id;
-    const preset = PRESETS.find(p => p.id === id);
+    const preset = PRESETS.find(preset => preset.id === id);
     if (!preset) return;
     
     inputPattern.value = preset.pattern;
@@ -150,8 +150,8 @@ divCommonList.addEventListener('click', (e) => {
     autoGrow(inputPattern, 88); // 刷新输入框高度
     autoGrow(inputReplace, 132);
     // flags
-    document.querySelectorAll('#flags input').forEach(cb => {
-        cb.checked = preset.flags.includes(cb.name);
+    document.querySelectorAll('#flags input').forEach(flagInput => {
+        flagInput.checked = preset.flags.includes(flagInput.name);
     });
 
     handlePatternInput();
@@ -165,24 +165,24 @@ divCommonList.addEventListener('click', (e) => {
 
 function savedToShow(id) {
     const savedData = loadPatterns();
-    const preset = savedData.find(p => p.id === id);
-    if (!preset) return;
+    const savedPattern = savedData.find(savedPattern => savedPattern.id === id);
+    if (!savedPattern) return;
     
-    inputPattern.value = preset.regex;
-    inputReplace.value = preset.replace;
-    inputTest.value = preset.text;
+    inputPattern.value = savedPattern.regex;
+    inputReplace.value = savedPattern.replace;
+    inputTest.value = savedPattern.text;
     autoGrow(inputPattern, 88); // 刷新输入框高度
     autoGrow(inputReplace, 132);
 
     // flags
-    document.querySelectorAll('#flags input').forEach(cb => {
-        cb.checked = preset.flags.includes(cb.name);
+    document.querySelectorAll('#flags input').forEach(flagInput => {
+        flagInput.checked = savedPattern.flags.includes(flagInput.name);
     });
 
     handlePatternInput();
 }
 
-divSavedList.addEventListener('click', (e) => {
+savedList.addEventListener('click', (e) => {
     const card = e.target.closest('.saved-card');
     if (!card) return;
     
@@ -194,15 +194,15 @@ divSavedList.addEventListener('click', (e) => {
     editingId = card.dataset.id;
     savedToShow(editingId); // 显示收藏
 
-    divSavedList.querySelectorAll('.saved-card.editing').forEach(c => {
-        c.classList.remove('editing');
+    savedList.querySelectorAll('.saved-card.editing').forEach(savedCard => {
+        savedCard.classList.remove('editing');
     });
 
     card.classList.add('editing');
 })
 
 // 编辑收藏名称
-divSavedList.addEventListener('input', (e) => {
+savedList.addEventListener('input', (e) => {
     const card = e.target.closest('.saved-card');
     const input = e.target.closest('.card-name-input');
     editSavedTitle(card.dataset.id, input.value);
@@ -252,15 +252,15 @@ function btnSavedInfo(info, time, type) {
  * footer 功能区：
  */
 const btnEditSaved = document.querySelector('#btn-edit-saved');
-const divWorkspace = document.querySelector('#workspace');
+const workspace = document.querySelector('#workspace');
 btnEditSaved.addEventListener('click', () => {
     editMode = !editMode;
     if (editMode) {
-        divWorkspace.classList.add('edit-mode');
+        workspace.classList.add('edit-mode');
         btnSave.textContent = '编辑模式：保存至当前选中项';
         btnEditSaved.textContent = '退出';
     } else {
-        divWorkspace.classList.remove('edit-mode');
+        workspace.classList.remove('edit-mode');
         btnSave.textContent = '收藏当前';
         btnEditSaved.textContent = '编辑';
     }

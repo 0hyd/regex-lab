@@ -208,19 +208,19 @@ function importPatterns(patterns) {
     let importedCount = 0;
     let duplicateCount = 0;
 
-    patterns.forEach((item, index) => {
-        if (savedData.some(savedItem => isSamePattern(savedItem, item))) {
+    patterns.forEach((pattern, index) => {
+        if (savedData.some(savedPattern => isSamePattern(savedPattern, pattern))) {
             duplicateCount += 1;
             return;
         }
 
         savedData.push({
             id     : `user-${Date.now()}-${index}`,
-            name   : item.name,
-            regex  : item.regex,
-            flags  : item.flags,
-            replace: item.replace,
-            text   : item.text
+            name   : pattern.name,
+            regex  : pattern.regex,
+            flags  : pattern.flags,
+            replace: pattern.replace,
+            text   : pattern.text
         });
         importedCount += 1;
     });

@@ -6,9 +6,9 @@ function syncHighlight(matchArray = []) {
     let html = '';
     let lastIndex = 0;
 
-    matchArray.forEach(item => {
-        const matchStart = item.index;
-        const matchEnd = matchStart + item.match.length;
+    matchArray.forEach(matchResult => {
+        const matchStart = matchResult.index;
+        const matchEnd = matchStart + matchResult.match.length;
 
         html += renderText(text.slice(lastIndex,matchStart));
         html += renderMatch(text.slice(matchStart,matchEnd));
