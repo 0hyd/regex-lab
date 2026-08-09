@@ -27,7 +27,7 @@
     flex-direction: column;
     align-items: center;
     font-size: 1.2rem;
-    color: #ffffff;
+    color: var(--text-primary);
     user-select: text;
     /* 允许复制 */
 }

@@ -39,7 +39,7 @@
 }
 
 .match-highlight {
-    background-color: rgba(217, 119, 87, 0.35);
+    background-color: var(--match-highlight);
     border-radius: 2px;
     color: var(--text-primary);
 }
