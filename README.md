@@ -18,6 +18,10 @@
 
 ## 使用
 
+直接访问 [GitHub Pages](https://0hyd.github.io/regex-lab/) 使用
+
+### 自部署
+
 这是一个无构建步骤的静态页面。可直接打开 `index.html`，也可使用任意静态文件服务器运行，例如：
 
 ```bash
