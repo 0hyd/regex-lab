@@ -183,3 +183,52 @@ function editSavedTitle(id, name) {
     }
     saveToLocal(savedData);
 }
+
+// 导出时不包含只在当前浏览器内有效的 id
+function getExportPatterns() {
+    return loadPatterns().map(item => ({
+        name   : item.name,
+        regex  : item.regex,
+        flags  : item.flags,
+        replace: item.replace,
+        text   : item.text
+    }));
+}
+
+function isSamePattern(first, second) {
+    return first.regex === second.regex &&
+        first.flags === second.flags &&
+        first.replace === second.replace &&
+        first.text === second.text;
+}
+
+// 合并已校验过的导入数据，并跳过与现有收藏重复的内容
+function importPatterns(patterns) {
+    const savedData = loadPatterns();
+    let importedCount = 0;
+    let duplicateCount = 0;
+
+    patterns.forEach((item, index) => {
+        if (savedData.some(savedItem => isSamePattern(savedItem, item))) {
+            duplicateCount += 1;
+            return;
+        }
+
+        savedData.push({
+            id     : `user-${Date.now()}-${index}`,
+            name   : item.name,
+            regex  : item.regex,
+            flags  : item.flags,
+            replace: item.replace,
+            text   : item.text
+        });
+        importedCount += 1;
+    });
+
+    if (importedCount > 0) {
+        saveToLocal(savedData);
+        renderSaved(savedData);
+    }
+
+    return {importedCount, duplicateCount};
+}

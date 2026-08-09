@@ -1,335 +1,157 @@
-# 正则实验室 (regex-lab)
+# 正则实验室
 
-一个交互式的正则表达式测试工具，支持实时匹配、替换预览、模式收藏和拖拽调整面板。
+一个纯前端的正则表达式测试工具。可实时查看匹配结果与替换预览，管理常用正则收藏，并将收藏导入或导出为 JSON 备份文件。
 
----
+## 功能
 
-## 功能清单
+- 实时构建正则，支持 `g`、`i`、`m`、`s`、`u` 标志位。
+- 显示匹配数量、匹配位置、匹配内容和捕获组。
+- 支持替换预览；替换文本中的 `\n`、`\t`、`\r` 会转换为对应字符。
+- 测试文本 overlay 高亮匹配内容，并显示换行符和制表符。
+- 内置邮箱、手机号、URL、身份证号和 IP 地址五个常用模式。
+- 用户收藏支持保存、加载、编辑名称、修改内容和删除。
+- 收藏区和常用区可折叠，左侧边栏可收起。
+- 编辑区和结果区之间的分割线支持拖拽调整宽度。
+- 支持复制正则、替换文本、测试文本和替换结果。
+- 支持深色与浅色主题切换，并保存主题选择。
+- 支持将用户收藏导出为 JSON，并以合并、去重方式导入备份。
 
-- [x] 正则输入框（支持 g/i/m/s/u 标志位）
-- [x] 测试文本框
-- [x] 实时匹配显示（结果卡片含位置、匹配内容）
-- [x] 替换功能（预览 + 支持 \n \t \r 转义）
-- [x] 常用模式
-- [x] 用户收藏
-- [x] 拖拽调整 panel 宽度（百分比限幅）
-- [x] 左侧 sidebar 折叠
-- [x] 各模块复制按钮（正则/替换/测试文本/替换结果）
-- [x] 编辑模式（批量删除收藏）
-- [x] 显示换行符制表符
-- [x] 常用 / 收藏可折叠
-- [ ] 高亮显示正文匹配的内容
-- [ ] 点击卡片跳转到测试文本对于位置
-- [ ] 导出数据（JSON 下载）
-- [ ] 主题切换（深色/浅色）
+## 使用
 
----
+这是一个无构建步骤的静态页面。可直接打开 `index.html`，也可使用任意静态文件服务器运行，例如：
 
-### 开发中
-
-高亮显示正文内容
-
----
-
-### 待实现：侧边栏底部按钮
-
-在 `#saved-sidebar` 底部新增 `#sidebar-footer`，放三个工具按钮。展开时横向排列，折叠时竖向排列。
-
-**HTML 结构：**
-```
-aside#saved-sidebar
-├── button#toggle-btn (右上角)
-├── section#saved-section (内容，折叠时隐藏)
-└── div#sidebar-footer (底部，新增)
-    ├── button#btn-edit   (编辑模式)
-    ├── button#btn-theme  (主题切换)
-    └── button#btn-export (导出数据)
+```bash
+npx serve .
 ```
 
-**CSS 布局：**
-```
-展开：[编辑] [主题] [导出]     ← flex-direction: row
-折叠：[编辑] / [主题] / [导出] ← flex-direction: column
-```
+打开服务输出的本地地址后：
 
-```css
-#sidebar-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 8px;
-}
-#saved-sidebar.collapsed #sidebar-footer {
-    flex-direction: column;
-}
-```
+1. 在“正则”输入表达式，并按需勾选标志位。
+2. 在“测试文本”输入需要匹配的内容。
+3. 在“替换文本”输入替换内容，右侧会显示替换预览。
+4. 点击“收藏当前”保存当前配置。
+5. 点击收藏卡片可重新载入配置；进入“编辑”模式后可改名、修改已选中项或删除收藏。
 
-#### 按钮 1：编辑模式
+## 收藏与备份
 
-- 作用：切换 `#saved-list.edit-mode`，显示卡片删除按钮
-- 切换按钮文字：`编辑` ↔ `完成`
-- 只对用户收藏生效，不影响常用区
+用户收藏和主题选择均保存在浏览器 `localStorage`：
 
-#### 按钮 2：主题切换（深色/浅色）
+| 数据 | 键名 |
+| --- | --- |
+| 用户收藏 | `regexlab.patterns` |
+| 主题 | `regexlab.theme` |
 
-- **原理**：给 `<html>` 加 `data-theme="light"` 属性，CSS 变量覆盖
-- **持久化**：存 `localStorage.getItem('regexlab.theme')`
-- **图标**：深色显 ☀️，浅色显 🌙
-- **过渡动画**：`body { transition: background-color 0.3s; }`
+浏览器清除站点数据后，本地收藏也会被删除。重要收藏请使用“导出”备份。
 
-```css
-:root, [data-theme="dark"] {
-    --bg-primary: hsl(60, 2%, 12%);
-    --text-primary: #ffffff;
-}
-[data-theme="light"] {
-    --bg-primary: hsl(60, 10%, 96%);
-    --text-primary: #1a1a1a;
+### 导出
+
+点击侧边栏底部的“导出”，浏览器会下载形如 `regexlab-patterns-YYYY-MM-DD.json` 的文件。导出文件不包含仅对当前浏览器有效的内部 `id`。
+
+### 导入
+
+点击“导入”并选择之前导出的 JSON 文件。导入过程会：
+
+- 校验 JSON 格式、数据版本和每个收藏字段。
+- 仅接受 `g`、`i`、`m`、`s`、`u` 标志位，且不允许重复标志位。
+- 合并到现有收藏，不会覆盖本地数据。
+- 根据 `regex`、`flags`、`replace`、`text` 判断重复项并跳过。
+- 跳过格式错误的单条记录，同时保留其他合法记录。
+
+当前备份格式版本为 `1`：
+
+```json
+{
+  "version": 1,
+  "patterns": [
+    {
+      "name": "手机号",
+      "regex": "(?<!\\d)1[3-9]\\d{9}(?!\\d)",
+      "flags": "g",
+      "replace": "[手机号]",
+      "text": "联系号码：13812345678"
+    }
+  ]
 }
 ```
 
-#### 按钮 3：导出数据
+## 项目结构
 
-- **作用**：下载用户收藏为 JSON 文件
-- **核心 API**：`Blob` + `URL.createObjectURL` + `<a download>`
-- **文件名**：`regex-patterns-2024-01-15.json`（带日期）
-- **格式化**：`JSON.stringify(patterns, null, 2)`（2 空格缩进，可读）
-
-```js
-const blob = new Blob([jsonStr], {type: 'application/json'});
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = `regex-patterns-${date}.json`;
-a.click();
-URL.revokeObjectURL(url);
-```
-
-#### 实现顺序
-
-1. 加 `#sidebar-footer` HTML 结构
-2. 写 CSS 布局（展开横向 / 折叠竖向）
-3. 实现主题切换（CSS 变量覆盖 + localStorage）
-4. 实现编辑模式（`classList.toggle` + 删除按钮显隐）
-5. 实现导出（Blob + 下载链接）
-
----
-
-## 已知问题
-
-1. 结果卡片样式未优化
-2. 变量变多，命名需要优化
-3. p, e, ietm 混用不清
-
----
-
-## 文件结构
-
-```
+```text
 regex-lab/
 ├── index.html
-├── README.md
+├── assets/
+│   ├── edit.svg
+│   ├── export.svg
+│   ├── import.svg
+│   └── theme.svg
 ├── style/
-│   ├── base.css          — CSS 变量、全局重置、button 基础样式
-│   ├── layout.css        — workspace flex 布局、面板、分割线 ::after
-│   ├── inputs.css        — input/textarea 样式、section-header-row、错误态
-│   ├── saved.css         — 侧边栏折叠、toggle 按钮
-│   ├── editor.css        — flags 排列、editor-panel 内部 section
-│   └── result.css        — 结果区域、result-list 滚动、卡片样式
+│   ├── base.css       # 全局重置、主题变量、基础按钮样式
+│   ├── layout.css     # 三栏工作区与分割线
+│   ├── inputs.css     # 输入框、标题行和错误状态
+│   ├── saved.css      # 侧边栏、收藏卡片和编辑状态
+│   ├── editor.css     # 编辑区与 flags 布局
+│   ├── result.css     # 匹配结果和替换预览区
+│   ├── overlay.css    # 测试文本视觉层和匹配高亮
+│   └── footer.css     # 侧边栏底部工具按钮
 └── script/
-    ├── storage.js         — 数据层：PRESETS 预设 + renderPresets
-    ├── matcher.js         — 运算层：buildRegExp / runMatch
-    ├── render.js          — 渲染层：renderResults / renderErrorResults
-    ├── respace.js         — 替换层：replaceText（支持转义）
-    ├── resizer.js         — 交互层：拖拽调整 editor/result 宽度
-    └── main.js            — 调度层：防抖、事件绑定、复制、折叠
+    ├── matcher.js     # 构建 RegExp、执行匹配
+    ├── render.js      # 渲染预设、收藏和匹配结果
+    ├── respace.js     # 替换转义处理与 overlay 文本渲染
+    ├── resizer.js     # 拖拽调整编辑区和结果区比例
+    ├── storage.js     # 预设数据、收藏 localStorage CRUD、导入导出数据处理
+    ├── overlay.js     # 高亮层内容与滚动同步
+    ├── footer.js      # 主题切换、JSON 文件导入导出
+    └── main.js        # 编辑器事件、匹配调度、复制和收藏交互
 ```
 
-**JS 加载顺序：** `matcher.js` → `render.js` → `respace.js` → `resizer.js` → `main.js`
+脚本按以下顺序加载，后续模块可以使用前面脚本声明的函数：
 
----
-
-## CSS 设计系统
-
-### CSS 变量（base.css）
-
-| 变量 | 值 | 用途 |
-|------|-----|------|
-| `--bg-primary` | `hsl(60, 2%, 12%)` | 页面主背景 |
-| `--bg-secondary` | `hsl(60, 2%, 17%)` | 卡片、按钮背景 |
-| `--bg-tertiary` | `hsl(60, 2%, 22%)` | hover 状态 |
-| `--bg-panel-darker` | `hsl(60, 2%, 11%)` | sidebar / result-panel |
-| `--text-primary` | `#ffffff` | 主文字 |
-| `--text-secondary` | `#c3c2b7` | 次要文字（body 默认） |
-| `--accent` | `#d97757` | 强调色（按钮、hover） |
-| `--resizer` | `#494949` | 分割线颜色 |
-| `--error` | `rgb(205, 72, 72)` | 错误边框色 |
-| `--bg-error` | `rgba(206, 89, 89, 0.447)` | 错误光晕 |
-
-### 文件职责
-
-| 文件 | 职责 |
-|------|------|
-| `base.css` | 全局 box-sizing、CSS 变量、body 底色、button 基础 |
-| `layout.css` | `#workspace` flex 三栏、三个 panel、`.line` 分割线 `::after` |
-| `inputs.css` | 输入框/textarea 尺寸样式、`.section-header-row`、`.error` 错误态 |
-| `saved.css` | 侧边栏宽度过渡、`.collapsed` 折叠、toggle 按钮定位 |
-| `editor.css` | flags 居中、`#editor-panel > section` flex column |
-| `result.css` | result 两区高度分配、result-list 滚动、卡片样式 |
-
----
-
-## HTML 结构
-
-```
-div#workspace (display: flex)
-├── aside#saved-sidebar (width: 20%, collapsible)
-│   ├── button#toggle-btn + span.icon
-│   └── section#saved-section
-│       ├── h2 "常用" + div#common-list (空)
-│       ├── h2 "收藏" + div#saved-list (空)
-│       └── button#save-btn
-├── div.line                      ← 侧边栏分割线 (5px, ::after 2px)
-├── main#editor-panel (flex: 1 1 0, min-width: 260px)
-│   ├── section#pattern-section
-│   │   ├── div.section-header-row > label + button#btn-copy-regex
-│   │   ├── input#pattern-input
-│   │   ├── form#flags (g/i/m/s/u checkboxes)
-│   │   └── div#pattern-error
-│   ├── section#replace-section
-│   │   ├── div.section-header-row > label + button#btn-copy-replace
-│   │   └── input#replace-input
-│   └── section#test-section (flex: 1)
-│       ├── div.section-header-row > label + button#btn-copy-test
-│       └── textarea#test-input
-├── div#resizer.line (cursor: col-resize)  ← 可拖拽分割线
-└── div#result-panel (flex: 0.6 1 0, min-width: 200px)
-    ├── section#result-section (height: 45%)
-    │   ├── div.section-header-row > label
-    │   └── div#result-content
-    │       ├── div#result-header ("匹配结果 N 处")
-    │       └── div#result-list (overflow-y: auto)
-    └── section#replace-result-section (flex: 1)
-        ├── div.section-header-row > label + button#btn-copy-result
-        └── textarea#replace-preview (disabled)
+```text
+matcher.js -> render.js -> respace.js -> resizer.js -> storage.js -> overlay.js -> footer.js -> main.js
 ```
 
-**面板布局规则：**
-- Desktop：横向 flex 三栏，`#resizer` 可拖拽调整 editor/result 比例
-- saved-sidebar 默认 20%，可折叠至 35px
-- result-panel 拖拽范围 20%–60%（百分比例）
+## 实现说明
 
----
+### 匹配与替换
 
-## JS 函数清单
+`matcher.js` 通过 `new RegExp()` 构建表达式。构建失败时返回错误信息，界面会显示无效正则状态。全局正则使用 `String.prototype.matchAll()` 收集所有匹配；非全局正则只返回第一个匹配。
 
-### storage.js（数据层）
+`respace.js` 会先处理替换文本中的 `\n`、`\t` 和 `\r`，再调用 `String.prototype.replace()` 生成预览。
 
-| 常量/函数 | 说明 |
-|-----------|------|
-| `PRESETS` | 5 个预设模式数组，含 id/name/pattern/flags/replace/test |
-| `renderPresets(PRESETS)` | 渲染"常用"卡片到 `#common-list`，使用 `data-id` + 事件委托 |
+### 文本高亮
 
-### matcher.js（运算层 — 纯逻辑）
+测试文本使用真实的 `<textarea>` 接收输入，并用覆盖在其下方的 `<pre>` 视觉层显示内容。视觉层依据匹配结果的原始位置切分文本，以 `<mark>` 包裹匹配片段；换行与制表符会显示为可见符号。
 
-| 函数 | 签名 | 说明 |
-|------|------|------|
-| `buildRegExp` | `(textPattern, formFlagsData) → {regex, error}` | 用 FormData 收集 flags，try-catch 构建 RegExp，返回 `{regex, error}` 对象 |
-| `runMatch` | `(regex, textTest) → [{index, match, groups}]` | matchAll（global）或 exec（非 global），返回匹配数组 |
+输入测试文本时会立即同步普通文本显示，正则计算与匹配高亮使用 300ms 防抖，避免每次按键都重复执行匹配和结果渲染。
 
-### render.js（渲染层 — DOM 操作）
+### 主题
 
-| 函数 | 签名 | 说明 |
-|------|------|------|
-| `render` | `(matchArray)` | 内部函数：清空 result-list，生成结果卡片，更新计数 |
-| `renderResults` | `(matchArray, replacePreviewText)` | 正常渲染，移除 `.error` 类，写入 replacePreviewText |
-| `renderErrorResults` | `(matchArray, errorText)` | 错误渲染，添加 `.error` 类（红色边框 + 光晕） |
+深色主题是默认值。主题切换会更新 `<html>` 的 `data-theme` 属性：
 
-### respace.js（替换层）
+```html
+<html data-theme="light">
+```
 
-| 函数 | 签名 | 说明 |
-|------|------|------|
-| `replaceText` | `(regex, text, replacement) → string` | 处理 `\n` `\t` `\r` 转义后执行 `String.replace()` |
+`base.css` 中的 `:root[data-theme="light"]` 覆盖同名 CSS 变量，因此各组件只需引用语义变量，不需要分别定义浅色样式。
 
-### resizer.js（交互层 — 拖拽调整宽度）
+### 收藏编辑
 
-| 变量/函数 | 说明 |
-|-----------|------|
-| `isResizing` / `startX` / `startWidth` | 拖拽状态变量 |
-| `MIN_WIDTH` = 20, `MAX_WIDTH` = 60 | result-panel 百分比限幅 |
-| `mousedown` on `#resizer` | `preventDefault()` + 记录起始值 + 计算 workspace 宽度 |
-| `mousemove` on `document` | 计算新宽度百分比，限制范围，设置 `resultPanel.style.flex` |
-| `mouseup` on `document` | 重置 isResizing |
-| `minfo.buttons === 0` 检测 | 鼠标按键已松开但事件未触发的兜底（解决窗口外松开问题） |
+`main.js` 维护 `editMode` 和 `editingId`：
 
-### main.js（调度层）
+- 普通模式下，“收藏当前”创建新收藏。
+- 编辑模式下，先选择一条收藏，再保存会更新该条内容。
+- 收藏标题通过 `#saved-list` 的事件委托即时写入本地存储。
 
-| 函数 | 说明 |
-|------|------|
-| `debounce(fn, delay=300)` | 通用防抖，返回闭包 |
-| `handlePatternInput()` | 核心调度：取 pattern+flags+text → buildRegExp → runMatch → replaceText → renderResults |
-| `bindCopy(btn, textFn)` | 通用复制绑定：clipboard.writeText + "已复制!" 1.5s 反馈 |
-| sidebar toggle | `classList.toggle('collapsed')` |
+## 技术栈
 
-**复制按钮绑定：**
-- `#btn-copy-regex` → `inputPattern.value`
-- `#btn-copy-replace` → `inputReplace.value`
-- `#btn-copy-test` → `inputTest.value`
-- `#btn-copy-result` → `replacePreviewText`（实时更新的变量）
+- HTML
+- CSS Custom Properties
+- 原生 JavaScript
+- Web Storage API
+- File API、Blob 和 Object URL
 
----
+## 已知限制
 
-## 边界处理
-
-| 场景 | 做法 |
-|------|------|
-| 空 pattern 或空 text | `renderResults([], '')` 显示 "无匹配结果" |
-| 非法正则 | `buildRegExp` 返回 `{error}` → `renderErrorResults` 红色边框 + 错误信息 |
-| 替换文本含 `\n` `\t` `\r` | `respace.js` 先转义再替换 |
-| result-panel 宽度超限 | `resizer.js` 限制 20%–60% |
-| 拖拽时鼠标飞出窗口 | `minfo.buttons === 0` 兜底检测 + `preventDefault` |
-| sidebar 折叠 | `#saved-sidebar.collapsed` → width: 35px, padding: 0, 内容 hidden |
-| 快速连续点击复制 | `clearTimeout` + 重新计时，防止提示闪烁 |
-
----
-
-## 预设模式（5 个）— 已实现
-
-| 名称 | 正则 | 标志 |
-|------|------|:----:|
-| 📧 邮箱 | `(?<!\w)[\w.+-]+@[\w-]+\.[\w.]+(?!\w)` | gi |
-| 📱 手机号 | `(?<!\d)1[3-9]\d{9}(?!\d)` | g |
-| 🌐 URL | `(?<![\w./-])https?://[\w./?=&%-]+` | gi |
-| 🪪 身份证 | `(?<!\d)\d{17}[\dXx](?!\d)` | g |
-| 💻 IP地址 | `(?<!\d)((25[0-5]\|2[0-4]\d\|1?\d?\d)\.){3}(25[0-5]\|2[0-4]\d\|1?\d?\d)(?!\d)` | g |
-
-> 所有正则均使用**零宽断言**（lookbehind / lookahead）确保边界精确，避免匹配长数字串的子串。
-
----
-
-## 实现顺序
-
-1. ✅ HTML 骨架 + CSS 变量 + 布局
-2. ✅ matcher.js（buildRegExp + runMatch）
-3. ✅ render.js（结果卡片 + 错误渲染）
-4. ✅ respace.js（replaceText 转义支持）
-5. ✅ main.js（防抖 + 复制 + 折叠）
-6. ✅ resizer.js（拖拽调整面板宽度）
-7. ✅ storage.js（PRESETS 预设数据 + renderPresets） / ⬜ localStorage CRUD + renderSavedList
-8. ⬜ 调试 + 移动端适配
-9. ⬜ 工具箱入口卡片
-
----
-
-## 技术要点
-
-- **防抖**：闭包 + setTimeout/clearTimeout，300ms
-- **matchAll**：迭代器 `[...text.matchAll(regex)]` 转数组
-- **flex vs width**：拖拽用 `style.flex = '0 1 ' + N + '%'` 而非 `style.width`（flex-basis 优先级更高）
-- **`::after` 分割线**：`.line` 5px 透明，`::after` 2px 可见线，`position: absolute` + `transform: translateX(-50%)` 居中
-- **拖拽稳定性**：`mousedown.preventDefault()` 阻止文本选中，`minfo.buttons === 0` 检测鼠标已松开
-- **CSS 变量**：统一深色主题色板，修改一处全局生效
-- **错误态**：`.error` 类添加 `box-shadow: inset` 红色边框 + `rgba` 光晕
-- **零宽断言**：(?<!) 负向后看 + (?!`) 负向前看确保边界精确，避免误匹配长数字串子串
-
----
+- 项目当前没有自动化测试或构建流程。
+- 测试文本高亮使用 `textarea` 与 `<pre>` overlay。极端自动换行场景下，不同浏览器对中文、emoji、tab 或滚动条宽度的排版计算可能产生轻微偏差。
+- 收藏仅保存在当前浏览器与站点范围内；跨设备使用需手动导出和导入。
