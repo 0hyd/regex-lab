@@ -98,9 +98,16 @@ const MAX_TEST_LENGTH = 10000;     // test 字段上限
 function savePattern(regex, flags, replace, text) { 
     /** @type {Array} */               //类型注释
     let savedData = loadPatterns();
+    const isTextTooLong = text.length > MAX_TEST_LENGTH;
+
+    // 测试文本过长时，仅保存正则相关内容
+    if (isTextTooLong) {
+        text = '';
+    }
 
     // 判重
     const isAlreadyHave = savedData.some(item =>
+        (!editMode || item.id !== editingId) &&
         item.regex === regex &&
         item.flags === flags &&
         item.replace === replace &&
@@ -152,8 +159,7 @@ function savePattern(regex, flags, replace, text) {
     renderSaved(loadPatterns());
 
     // 保存提示
-    if (text.length > MAX_TEST_LENGTH) {
-        text = '';
+    if (isTextTooLong) {
         btnSavedInfo('测试文本过长，仅保存正则相关内容', 3000);
     } else {
         btnSavedInfo('保存成功', 1500);
